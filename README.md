@@ -1,6 +1,6 @@
 # StudyFlow
 
-StudyFlow 是一个个人学习与项目工作台，面向学生和个人开发者。目前已完成 Day 1 的应用骨架，以及 Day 2 的数据库、首次账户初始化和基础认证流程。
+StudyFlow 是一个个人学习与项目工作台，面向学生和个人开发者。目前已完成 Day 1 至 Day 4 的应用骨架、认证、项目任务和学习计划功能。
 
 ## 环境要求
 
@@ -32,7 +32,7 @@ python -m uvicorn app.main:app --reload
 - 打开 <http://127.0.0.1:8000> 查看 StudyFlow 首页。
 - 首次使用时打开 <http://127.0.0.1:8000/setup> 创建唯一的初始账户。
 - 之后通过 <http://127.0.0.1:8000/login> 登录；登录成功后进入受保护的 Dashboard。
-- Dashboard 可进入项目和任务页面，并提供退出登录按钮。
+- Dashboard 可进入项目、任务和学习计划页面，并提供退出登录按钮。
 
 开发服务器启动后，修改文件会自动重新加载。SQLite 数据库文件位于 `data/studyflow.db`，由 Alembic 迁移创建，并已加入 Git 忽略规则。
 
@@ -75,9 +75,14 @@ python -m uvicorn app.main:app --reload --env-file .env
 - Dashboard 显示当前用户的 active 项目数、未完成任务数和最近任务
 - Task 完成时记录 `completed_at`，重新打开时清除该时间
 
+### Day 4 已完成
+
+- Study Plans：创建、查看、编辑和删除学习计划，可设置日期、预计分钟数，并选择关联的当前用户任务
+- Dashboard 显示今日学习计划和预计总分钟数、今日到期未完成任务、active 项目数、全部未完成任务数和最近任务
+- Study Plan 和关联 Task 的读写均限定为当前登录用户
+
 ### 尚未实现
 
-- Study Plans
 - Notes
 - Study Logs
 - Statistics
@@ -102,6 +107,7 @@ StudyFlow/
 │   ├── routers/
 │   │   ├── auth.py
 │   │   ├── dashboard.py
+│   │   ├── plans.py
 │   │   ├── projects.py
 │   │   └── tasks.py
 │   ├── static/
@@ -111,6 +117,8 @@ StudyFlow/
 │       ├── dashboard.html
 │       ├── index.html
 │       ├── login.html
+│       ├── plan_form.html
+│       ├── plans.html
 │       ├── project_form.html
 │       ├── projects.html
 │       ├── task_form.html
@@ -123,7 +131,8 @@ StudyFlow/
 │   ├── script.py.mako
 │   └── versions/
 │       ├── 0001_create_users_and_auth_sessions.py
-│       └── 0002_create_projects_and_tasks.py
+│       ├── 0002_create_projects_and_tasks.py
+│       └── 0003_create_study_plans.py
 ├── pyproject.toml
 └── README.md
 ```

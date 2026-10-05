@@ -8,6 +8,7 @@ from fastapi.templating import Jinja2Templates
 from app.routers.auth import router as auth_router
 from app.routers.dashboard import router as dashboard_router
 from app.routers.projects import router as projects_router
+from app.routers.plans import router as plans_router
 from app.routers.tasks import router as tasks_router
 
 
@@ -25,6 +26,7 @@ app.include_router(auth_router)
 app.include_router(dashboard_router)
 app.include_router(projects_router)
 app.include_router(tasks_router)
+app.include_router(plans_router)
 
 
 @app.get("/", include_in_schema=False)

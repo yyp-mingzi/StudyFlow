@@ -42,3 +42,27 @@ class TaskFormData(BaseModel):
         if value == "":
             return None
         return value
+
+
+class StudyPlanFormData(BaseModel):
+    model_config = ConfigDict(str_strip_whitespace=True)
+
+    title: str = Field(min_length=1, max_length=200)
+    description: str | None = None
+    plan_date: date
+    planned_minutes: int = Field(gt=0, le=1440)
+    task_id: int | None = Field(default=None, ge=1)
+
+    @field_validator("description", mode="before")
+    @classmethod
+    def blank_description_is_empty(cls, value: str | None) -> str | None:
+        if value is None or not value.strip():
+            return None
+        return value
+
+    @field_validator("task_id", mode="before")
+    @classmethod
+    def blank_task_is_empty(cls, value: object) -> object:
+        if value == "":
+            return None
+        return value

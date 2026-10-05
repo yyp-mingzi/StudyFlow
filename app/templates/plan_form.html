@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#f6f7f2">
+    <title>{{ page_title }} · StudyFlow</title>
+    <link rel="stylesheet" href="{{ url_for('static', path='/css/style.css') }}">
+  </head>
+  <body>
+    <main class="page-shell">
+      <header class="topbar">
+        <a class="brand" href="/dashboard" aria-label="StudyFlow Dashboard">
+          <span class="brand-mark" aria-hidden="true">S</span>
+          <span>StudyFlow</span>
+        </a>
+        <nav class="topbar-links" aria-label="工作台导航">
+          <a href="/dashboard">Dashboard</a>
+          <a href="/projects">项目</a>
+          <a href="/tasks">任务</a>
+        </nav>
+      </header>
+
+      <section class="auth-card form-card" aria-labelledby="plan-form-title">
+        <p class="eyebrow"><span class="status-dot"></span>STUDY PLAN</p>
+        <h1 id="plan-form-title">{{ page_title }}</h1>
+        {% if error %}<p class="form-error" role="alert">{{ error }}</p>{% endif %}
+
+        <form action="{{ form_action }}" method="post" class="setup-form">
+          <label class="form-field">
+            <span>计划标题</span>
+            <input type="text" name="title" value="{{ form.title }}" maxlength="200" required>
+          </label>
+          <label class="form-field">
+            <span>学习内容</span>
+            <textarea name="description" rows="4">{{ form.description }}</textarea>
+          </label>
+          <div class="form-grid">
+            <label class="form-field">
+              <span>计划日期</span>
+              <input type="date" name="plan_date" value="{{ form.plan_date }}" required>
+            </label>
+            <label class="form-field">
+              <span>预计分钟数</span>
+              <input type="number" name="planned_minutes" value="{{ form.planned_minutes }}" min="1" max="1440" required>
+            </label>
+          </div>
+          <label class="form-field">
+            <span>关联任务（可选）</span>
+            <select name="task_id">
+              <option value="">不关联任务</option>
+              {% for task in tasks %}
+              <option value="{{ task.id }}" {% if form.task_id|string == task.id|string %}selected{% endif %}>
+                {{ task.title }}
+              </option>
+              {% endfor %}
+            </select>
+          </label>
+          <button class="primary-button" type="submit">保存计划</button>
+          <a class="text-link" href="/plans">返回学习计划</a>
+        </form>
+      </section>
+
+      <footer class="footer">
+        <span>为专注的学习时间做好安排。</span>
+        <span class="footer-mark">STUDYFLOW <span aria-hidden="true">·</span> PLANS</span>
+      </footer>
+    </main>
+  </body>
+</html>

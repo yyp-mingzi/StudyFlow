@@ -25,6 +25,7 @@
         <nav class="workspace-nav" aria-label="工作台导航">
           <a class="secondary-link" href="/projects">项目</a>
           <a class="secondary-link" href="/tasks">任务</a>
+          <a class="secondary-link" href="/plans">学习计划</a>
         </nav>
 
         <div class="summary-grid">
@@ -33,10 +34,61 @@
             <strong class="summary-value">{{ active_project_count }}</strong>
           </article>
           <article class="summary-card">
-            <span class="summary-label">未完成任务</span>
+            <span class="summary-label">今日计划分钟数</span>
+            <strong class="summary-value">{{ today_plan_minutes }}</strong>
+          </article>
+          <article class="summary-card">
+            <span class="summary-label">今日未完成任务</span>
+            <strong class="summary-value">{{ today_open_task_count }}</strong>
+          </article>
+          <article class="summary-card">
+            <span class="summary-label">全部未完成任务</span>
             <strong class="summary-value">{{ open_task_count }}</strong>
           </article>
         </div>
+
+        <section class="recent-section" aria-labelledby="today-plans-title">
+          <div class="section-heading">
+            <h2 id="today-plans-title">今日学习计划 · {{ today.isoformat() }}</h2>
+            <a class="text-link" href="/plans">管理计划</a>
+          </div>
+          {% if today_plan_rows %}
+          <ul class="record-list compact-list">
+            {% for plan, task_title in today_plan_rows %}
+            <li class="record-row">
+              <span>
+                {{ plan.title }}
+                {% if task_title %}<small> · 关联任务：{{ task_title }}</small>{% endif %}
+              </span>
+              <span>{{ plan.planned_minutes }} 分钟</span>
+            </li>
+            {% endfor %}
+          </ul>
+          {% else %}
+          <p class="empty-state">今天还没有学习计划。<a href="/plans/new">安排一个学习计划</a></p>
+          {% endif %}
+        </section>
+
+        <section class="recent-section" aria-labelledby="today-tasks-title">
+          <div class="section-heading">
+            <h2 id="today-tasks-title">今日未完成任务</h2>
+            <a class="text-link" href="/tasks">查看全部</a>
+          </div>
+          {% if today_open_tasks %}
+          <ul class="record-list compact-list">
+            {% for task in today_open_tasks %}
+            <li class="record-row">
+              <span>{{ task.title }}</span>
+              <span class="status-label status-{{ task.status }}">
+                {% if task.status == "todo" %}待办{% else %}进行中{% endif %}
+              </span>
+            </li>
+            {% endfor %}
+          </ul>
+          {% else %}
+          <p class="empty-state">今天没有未完成的到期任务。</p>
+          {% endif %}
+        </section>
 
         <section class="recent-section" aria-labelledby="recent-tasks-title">
           <div class="section-heading">
