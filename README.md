@@ -1,6 +1,6 @@
 # StudyFlow
 
-StudyFlow 是一个个人学习与项目工作台，面向学生和个人开发者。目前已完成 Day 1 至 Day 4 的应用骨架、认证、项目任务和学习计划功能。
+StudyFlow 是一个个人学习与项目工作台，面向学生和个人开发者。目前已完成 Day 1 至 Day 5 的应用骨架、认证、项目任务、学习计划和 Markdown 笔记功能。
 
 ## 环境要求
 
@@ -10,6 +10,7 @@ StudyFlow 是一个个人学习与项目工作台，面向学生和个人开发�
 
 - FastAPI 和 Uvicorn：后端应用与开发服务器
 - Jinja2：HTML 页面模板
+- Markdown 和 nh3：Markdown 解析与 HTML 安全清理
 - SQLAlchemy 2.x 和 SQLite：ORM 与本地数据库
 - Alembic：数据库迁移
 - Pydantic：请求数据验证（由 FastAPI 使用）
@@ -32,7 +33,7 @@ python -m uvicorn app.main:app --reload
 - 打开 <http://127.0.0.1:8000> 查看 StudyFlow 首页。
 - 首次使用时打开 <http://127.0.0.1:8000/setup> 创建唯一的初始账户。
 - 之后通过 <http://127.0.0.1:8000/login> 登录；登录成功后进入受保护的 Dashboard。
-- Dashboard 可进入项目、任务和学习计划页面，并提供退出登录按钮。
+- Dashboard 可进入项目、任务、学习计划和笔记页面，并提供退出登录按钮。
 
 开发服务器启动后，修改文件会自动重新加载。SQLite 数据库文件位于 `data/studyflow.db`，由 Alembic 迁移创建，并已加入 Git 忽略规则。
 
@@ -81,9 +82,15 @@ python -m uvicorn app.main:app --reload --env-file .env
 - Dashboard 显示今日学习计划和预计总分钟数、今日到期未完成任务、active 项目数、全部未完成任务数和最近任务
 - Study Plan 和关联 Task 的读写均限定为当前登录用户
 
+### Day 5 已完成
+
+- Notes：创建、查看、编辑和删除 Markdown 笔记，可选择关联自己的项目
+- 按标题搜索当前用户的笔记
+- 渲染常见 Markdown 语法，并在输出前清理 HTML，过滤脚本、事件属性和危险链接
+- Dashboard、Projects、Tasks、Plans 和 Notes 页面之间提供导航
+
 ### 尚未实现
 
-- Notes
 - Study Logs
 - Statistics
 - AI Assistant
@@ -101,12 +108,14 @@ StudyFlow/
 │   ├── __init__.py
 │   ├── auth.py
 │   ├── database.py
+│   ├── markdown_utils.py
 │   ├── main.py
 │   ├── models.py
 │   ├── schemas.py
 │   ├── routers/
 │   │   ├── auth.py
 │   │   ├── dashboard.py
+│   │   ├── notes.py
 │   │   ├── plans.py
 │   │   ├── projects.py
 │   │   └── tasks.py
@@ -117,6 +126,9 @@ StudyFlow/
 │       ├── dashboard.html
 │       ├── index.html
 │       ├── login.html
+│       ├── note_detail.html
+│       ├── note_form.html
+│       ├── notes.html
 │       ├── plan_form.html
 │       ├── plans.html
 │       ├── project_form.html
@@ -132,7 +144,8 @@ StudyFlow/
 │   └── versions/
 │       ├── 0001_create_users_and_auth_sessions.py
 │       ├── 0002_create_projects_and_tasks.py
-│       └── 0003_create_study_plans.py
+│       ├── 0003_create_study_plans.py
+│       └── 0004_create_notes.py
 ├── pyproject.toml
 └── README.md
 ```

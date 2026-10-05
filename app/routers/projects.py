@@ -10,7 +10,7 @@ from sqlalchemy.orm import Session
 
 from app.auth import get_current_user
 from app.database import get_db
-from app.models import Project, Task, User
+from app.models import Note, Project, Task, User
 from app.schemas import ProjectFormData
 
 
@@ -208,6 +208,14 @@ def delete_project(
         .where(
             Task.user_id == current_user.id,
             Task.project_id == project.id,
+        )
+        .values(project_id=None, updated_at=datetime.now(timezone.utc))
+    )
+    db.execute(
+        update(Note)
+        .where(
+            Note.user_id == current_user.id,
+            Note.project_id == project.id,
         )
         .values(project_id=None, updated_at=datetime.now(timezone.utc))
     )

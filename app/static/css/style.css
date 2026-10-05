@@ -387,6 +387,8 @@ h1 {
 .topbar-links {
   color: #668070;
   font-size: 12px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
 }
 
 .topbar-links a:hover,
@@ -624,6 +626,119 @@ h1 {
   grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
+.note-search {
+  display: flex;
+  margin-bottom: 22px;
+  align-items: end;
+  gap: 12px;
+}
+
+.note-search .form-field {
+  flex: 1;
+}
+
+.note-search .text-link {
+  margin-bottom: 11px;
+}
+
+.note-form-card {
+  width: min(100%, 900px);
+}
+
+.note-content {
+  padding: 24px 28px;
+  overflow-wrap: anywhere;
+  border: 1px solid #e1e8df;
+  border-radius: 5px;
+  background: rgb(255 255 252 / 90%);
+  color: #33473c;
+  font-size: 14px;
+  line-height: 1.8;
+}
+
+.note-content > :first-child {
+  margin-top: 0;
+}
+
+.note-content > :last-child {
+  margin-bottom: 0;
+}
+
+.note-content h1,
+.note-content h2,
+.note-content h3,
+.note-content h4,
+.note-content h5,
+.note-content h6 {
+  margin: 1.4em 0 0.6em;
+  color: #20372c;
+  font-size: 1.35em;
+  letter-spacing: -0.03em;
+}
+
+.note-content p,
+.note-content ul,
+.note-content ol,
+.note-content blockquote {
+  margin: 0.85em 0;
+}
+
+.note-content ul,
+.note-content ol {
+  padding-left: 1.6em;
+}
+
+.note-content a {
+  color: #41664e;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.note-content blockquote {
+  padding: 2px 16px;
+  border-left: 3px solid #a5b99e;
+  color: #66776a;
+}
+
+.note-content pre {
+  padding: 16px 18px;
+  overflow-x: auto;
+  border-radius: 4px;
+  background: #20372c;
+  color: #f2f5ee;
+  line-height: 1.6;
+}
+
+.note-content code {
+  padding: 2px 5px;
+  border-radius: 3px;
+  background: #edf1e9;
+  font-family: Consolas, monospace;
+  font-size: 0.92em;
+}
+
+.note-content pre code {
+  padding: 0;
+  background: transparent;
+  color: inherit;
+}
+
+.note-content table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.note-content th,
+.note-content td {
+  padding: 8px 10px;
+  border: 1px solid #dce3da;
+  text-align: left;
+}
+
+.note-content th {
+  background: #f0f3ec;
+}
+
 @media (max-width: 760px) {
   .page-shell {
     width: min(100% - 36px, 540px);
@@ -694,6 +809,24 @@ h1 {
 
   .record-actions {
     justify-content: flex-start;
+  }
+
+  .note-search {
+    align-items: stretch;
+    flex-wrap: wrap;
+  }
+
+  .note-search .form-field {
+    flex-basis: 100%;
+  }
+
+  .note-search .text-link {
+    align-self: center;
+    margin: 0;
+  }
+
+  .note-content {
+    padding: 20px;
   }
 }
 

@@ -158,3 +158,30 @@ class StudyPlan(Base):
 
     user: Mapped[User] = relationship(back_populates="study_plans")
     task: Mapped[Task | None] = relationship(back_populates="study_plans")
+
+
+class Note(Base):
+    __tablename__ = "notes"
+    __table_args__ = (
+        ForeignKeyConstraint(
+            ["project_id", "user_id"],
+            ["projects.id", "projects.user_id"],
+            name="fk_notes_project_same_user",
+        ),
+        CheckConstraint("length(trim(title)) > 0", name="ck_notes_title_not_empty"),
+    )
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+    user_id: Mapped[int] = mapped_column(ForeignKey("users.id"), nullable=False)
+    project_id: Mapped[int | None] = mapped_column(nullable=True)
+    title: Mapped[str] = mapped_column(String(200), nullable=False)
+    content_markdown: Mapped[str] = mapped_column(Text, nullable=False, default="")
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), server_default=func.now(), nullable=False
+    )
+    updated_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True),
+        server_default=func.now(),
+        onupdate=func.now(),
+        nullable=False,
+    )

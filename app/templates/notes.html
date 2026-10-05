@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#f6f7f2">
+    <title>笔记 · StudyFlow</title>
+    <link rel="stylesheet" href="{{ url_for('static', path='/css/style.css') }}">
+  </head>
+  <body>
+    <main class="page-shell">
+      <header class="topbar">
+        <a class="brand" href="/dashboard" aria-label="StudyFlow Dashboard">
+          <span class="brand-mark" aria-hidden="true">S</span>
+          <span>StudyFlow</span>
+        </a>
+        <nav class="topbar-links" aria-label="工作台导航">
+          <a href="/dashboard">Dashboard</a>
+          <a href="/projects">项目</a>
+          <a href="/tasks">任务</a>
+          <a href="/plans">学习计划</a>
+        </nav>
+      </header>
+
+      <section class="workspace-content" aria-labelledby="notes-title">
+        <div class="page-heading">
+          <div>
+            <p class="eyebrow"><span class="status-dot"></span>YOUR WORKSPACE</p>
+            <h1 id="notes-title">Markdown 笔记</h1>
+            <p class="auth-intro">整理知识，并将笔记关联到自己的项目。</p>
+          </div>
+          <a class="primary-link" href="/notes/new">新建笔记</a>
+        </div>
+
+        <form action="/notes" method="get" class="note-search">
+          <label class="form-field">
+            <span>按标题搜索</span>
+            <input type="search" name="q" value="{{ search_term }}" placeholder="输入笔记标题">
+          </label>
+          <button class="secondary-button" type="submit">搜索</button>
+          {% if search_term %}<a class="text-link" href="/notes">清除</a>{% endif %}
+        </form>
+
+        {% if note_rows %}
+        <ul class="record-list">
+          {% for note, project_name in note_rows %}
+          <li class="record-card">
+            <div class="record-main">
+              <div class="record-title-row">
+                <h2><a href="/notes/{{ note.id }}">{{ note.title }}</a></h2>
+              </div>
+              <p class="record-description">{{ note.content_markdown[:240] }}{% if note.content_markdown|length > 240 %}…{% endif %}</p>
+              <div class="record-meta">
+                {% if project_name %}<span>项目：{{ project_name }}</span>{% endif %}
+                <span>更新于 {{ note.updated_at.strftime("%Y-%m-%d %H:%M") }}</span>
+              </div>
+            </div>
+            <div class="record-actions">
+              <a class="secondary-link" href="/notes/{{ note.id }}">查看</a>
+              <a class="secondary-link" href="/notes/{{ note.id }}/edit">编辑</a>
+              <form action="/notes/{{ note.id }}/delete" method="post">
+                <button class="danger-button" type="submit">删除</button>
+              </form>
+            </div>
+          </li>
+          {% endfor %}
+        </ul>
+        {% elif search_term %}
+        <p class="empty-state">没有找到标题包含“{{ search_term }}”的笔记。</p>
+        {% else %}
+        <p class="empty-state">还没有笔记。创建一篇笔记来记录你的学习内容。</p>
+        {% endif %}
+      </section>
+
+      <footer class="footer">
+        <span>把重要的想法记录下来。</span>
+        <span class="footer-mark">STUDYFLOW <span aria-hidden="true">·</span> NOTES</span>
+      </footer>
+    </main>
+  </body>
+</html>

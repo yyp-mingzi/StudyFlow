@@ -66,3 +66,23 @@ class StudyPlanFormData(BaseModel):
         if value == "":
             return None
         return value
+
+
+class NoteFormData(BaseModel):
+    title: str = Field(min_length=1, max_length=200)
+    content_markdown: str = ""
+    project_id: int | None = Field(default=None, ge=1)
+
+    @field_validator("title", mode="before")
+    @classmethod
+    def strip_title(cls, value: object) -> object:
+        if isinstance(value, str):
+            return value.strip()
+        return value
+
+    @field_validator("project_id", mode="before")
+    @classmethod
+    def blank_project_is_empty(cls, value: object) -> object:
+        if value == "":
+            return None
+        return value

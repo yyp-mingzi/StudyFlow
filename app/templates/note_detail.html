@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#f6f7f2">
+    <title>{{ note.title }} · StudyFlow</title>
+    <link rel="stylesheet" href="{{ url_for('static', path='/css/style.css') }}">
+  </head>
+  <body>
+    <main class="page-shell">
+      <header class="topbar">
+        <a class="brand" href="/dashboard" aria-label="StudyFlow Dashboard">
+          <span class="brand-mark" aria-hidden="true">S</span>
+          <span>StudyFlow</span>
+        </a>
+        <nav class="topbar-links" aria-label="工作台导航">
+          <a href="/dashboard">Dashboard</a>
+          <a href="/projects">项目</a>
+          <a href="/tasks">任务</a>
+          <a href="/plans">学习计划</a>
+          <a href="/notes">笔记列表</a>
+        </nav>
+      </header>
+
+      <section class="workspace-content" aria-labelledby="note-title">
+        <div class="page-heading">
+          <div>
+            <p class="eyebrow"><span class="status-dot"></span>MARKDOWN NOTE</p>
+            <h1 id="note-title">{{ note.title }}</h1>
+            <p class="auth-intro">
+              {% if project_name %}项目：{{ project_name }} · {% endif %}
+              更新于 {{ note.updated_at.strftime("%Y-%m-%d %H:%M") }}
+            </p>
+          </div>
+          <div class="record-actions">
+            <a class="secondary-link" href="/notes/{{ note.id }}/edit">编辑笔记</a>
+            <form action="/notes/{{ note.id }}/delete" method="post">
+              <button class="danger-button" type="submit">删除笔记</button>
+            </form>
+          </div>
+        </div>
+
+        {% if note.content_markdown.strip() %}
+        <article class="note-content">
+          {{ rendered_markdown }}
+        </article>
+        {% else %}
+        <p class="empty-state">这篇笔记暂时没有内容。</p>
+        {% endif %}
+      </section>
+
+      <footer class="footer">
+        <span>把重要的想法记录下来。</span>
+        <span class="footer-mark">STUDYFLOW <span aria-hidden="true">·</span> NOTES</span>
+      </footer>
+    </main>
+  </body>
+</html>
