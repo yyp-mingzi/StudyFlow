@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#f6f7f2">
+    <title>Dashboard · StudyFlow</title>
+    <link rel="stylesheet" href="{{ url_for('static', path='/css/style.css') }}">
+  </head>
+  <body>
+    <main class="page-shell">
+      <header class="topbar">
+        <a class="brand" href="/" aria-label="StudyFlow 首页">
+          <span class="brand-mark" aria-hidden="true">S</span>
+          <span>StudyFlow</span>
+        </a>
+        <span class="topbar-note">PERSONAL WORKSPACE</span>
+      </header>
+
+      <section class="auth-card" aria-labelledby="dashboard-title">
+        <p class="eyebrow"><span class="status-dot"></span>PERSONAL WORKSPACE</p>
+        <h1 id="dashboard-title">StudyFlow Dashboard</h1>
+        <p class="auth-intro">当前登录用户：<strong>{{ username }}</strong></p>
+
+        <form action="/logout" method="post">
+          <button class="primary-button" type="submit">退出登录</button>
+        </form>
+      </section>
+
+      <footer class="footer">
+        <span>你的个人学习工作台。</span>
+        <span class="footer-mark">STUDYFLOW <span aria-hidden="true">·</span> DASHBOARD</span>
+      </footer>
+    </main>
+  </body>
+</html>

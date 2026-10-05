@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#f6f7f2">
+    <title>初始化账户 · StudyFlow</title>
+    <link rel="stylesheet" href="{{ url_for('static', path='/css/style.css') }}">
+  </head>
+  <body>
+    <main class="page-shell">
+      <header class="topbar">
+        <a class="brand" href="/" aria-label="StudyFlow 首页">
+          <span class="brand-mark" aria-hidden="true">S</span>
+          <span>StudyFlow</span>
+        </a>
+        <span class="topbar-note">FIRST-TIME SETUP</span>
+      </header>
+
+      <section class="auth-card" aria-labelledby="setup-title">
+        <p class="eyebrow"><span class="status-dot"></span>只需设置一次</p>
+        <h1 id="setup-title">创建你的账户</h1>
+        <p class="auth-intro">设置账户后，就可以继续进入你的个人工作台。</p>
+
+        {% if error %}
+        <p class="form-error" role="alert">{{ error }}</p>
+        {% endif %}
+
+        <form action="/setup" method="post" class="setup-form">
+          <label class="form-field">
+            <span>用户名</span>
+            <input
+              type="text"
+              name="username"
+              value="{{ username }}"
+              maxlength="50"
+              autocomplete="username"
+              required
+            >
+          </label>
+
+          <label class="form-field">
+            <span>密码</span>
+            <input
+              type="password"
+              name="password"
+              autocomplete="new-password"
+              required
+            >
+          </label>
+
+          <label class="form-field">
+            <span>确认密码</span>
+            <input
+              type="password"
+              name="confirm_password"
+              autocomplete="new-password"
+              required
+            >
+          </label>
+
+          <button class="primary-button" type="submit">创建账户</button>
+        </form>
+      </section>
+
+      <footer class="footer">
+        <span>你的学习工作台，从这里开始。</span>
+        <span class="footer-mark">STUDYFLOW <span aria-hidden="true">·</span> SETUP</span>
+      </footer>
+    </main>
+  </body>
+</html>

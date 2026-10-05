@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#f6f7f2">
+    <title>登录 · StudyFlow</title>
+    <link rel="stylesheet" href="{{ url_for('static', path='/css/style.css') }}">
+  </head>
+  <body>
+    <main class="page-shell">
+      <header class="topbar">
+        <a class="brand" href="/" aria-label="StudyFlow 首页">
+          <span class="brand-mark" aria-hidden="true">S</span>
+          <span>StudyFlow</span>
+        </a>
+        <span class="topbar-note">ACCOUNT LOGIN</span>
+      </header>
+
+      <section class="auth-card" aria-labelledby="login-title">
+        <p class="eyebrow"><span class="status-dot"></span>欢迎回来</p>
+        <h1 id="login-title">登录 StudyFlow</h1>
+        <p class="auth-intro">使用你的账户继续学习和管理个人项目。</p>
+
+        {% if error %}
+        <p class="form-error" role="alert">{{ error }}</p>
+        {% endif %}
+
+        <form action="/login" method="post" class="setup-form">
+          <label class="form-field">
+            <span>用户名</span>
+            <input
+              type="text"
+              name="username"
+              value="{{ username }}"
+              maxlength="50"
+              autocomplete="username"
+              required
+            >
+          </label>
+
+          <label class="form-field">
+            <span>密码</span>
+            <input
+              type="password"
+              name="password"
+              autocomplete="current-password"
+              required
+            >
+          </label>
+
+          <button class="primary-button" type="submit">登录</button>
+        </form>
+      </section>
+
+      <footer class="footer">
+        <span>专注于你的下一步。</span>
+        <span class="footer-mark">STUDYFLOW <span aria-hidden="true">·</span> LOGIN</span>
+      </footer>
+    </main>
+  </body>
+</html>
