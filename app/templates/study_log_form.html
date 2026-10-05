@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#f6f7f2">
+    <title>{{ page_title }} · StudyFlow</title>
+    <link rel="stylesheet" href="{{ url_for('static', path='/css/style.css') }}">
+  </head>
+  <body>
+    <main class="page-shell">
+      <header class="topbar">
+        <a class="brand" href="/dashboard" aria-label="StudyFlow Dashboard">
+          <span class="brand-mark" aria-hidden="true">S</span>
+          <span>StudyFlow</span>
+        </a>
+        <nav class="topbar-links" aria-label="工作台导航">
+          <a href="/dashboard">Dashboard</a>
+          <a href="/projects">项目</a>
+          <a href="/tasks">任务</a>
+          <a href="/plans">学习计划</a>
+          <a href="/notes">笔记</a>
+        </nav>
+      </header>
+
+      <section class="auth-card form-card" aria-labelledby="study-log-form-title">
+        <p class="eyebrow"><span class="status-dot"></span>STUDY LOG</p>
+        <h1 id="study-log-form-title">{{ page_title }}</h1>
+        {% if error %}<p class="form-error" role="alert">{{ error }}</p>{% endif %}
+
+        <form action="{{ form_action }}" method="post" class="setup-form">
+          <div class="form-grid">
+            <label class="form-field">
+              <span>学习日期</span>
+              <input type="date" name="studied_on" value="{{ form.studied_on }}" required>
+            </label>
+            <label class="form-field">
+              <span>学习分钟数</span>
+              <input type="number" name="duration_minutes" value="{{ form.duration_minutes }}" min="1" required>
+            </label>
+          </div>
+          <label class="form-field">
+            <span>关联任务（可选）</span>
+            <select name="task_id">
+              <option value="">不关联任务</option>
+              {% for task in tasks %}
+              <option value="{{ task.id }}" {% if form.task_id|string == task.id|string %}selected{% endif %}>
+                {{ task.title }}
+              </option>
+              {% endfor %}
+            </select>
+          </label>
+          <label class="form-field">
+            <span>备注（可选）</span>
+            <textarea name="note" rows="5">{{ form.note }}</textarea>
+          </label>
+          <button class="primary-button" type="submit">保存学习记录</button>
+          <a class="text-link" href="/study-logs">返回学习记录</a>
+        </form>
+      </section>
+
+      <footer class="footer">
+        <span>记录实际完成的学习时间。</span>
+        <span class="footer-mark">STUDYFLOW <span aria-hidden="true">·</span> STUDY LOGS</span>
+      </footer>
+    </main>
+  </body>
+</html>

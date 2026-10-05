@@ -185,3 +185,27 @@ class Note(Base):
         onupdate=func.now(),
         nullable=False,
     )
+
+
+class StudyLog(Base):
+    __tablename__ = "study_logs"
+    __table_args__ = (
+        CheckConstraint(
+            "duration_minutes > 0 AND "
+            "duration_minutes = CAST(duration_minutes AS INTEGER)",
+            name="ck_study_logs_duration_positive",
+        ),
+    )
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+    user_id: Mapped[int] = mapped_column(ForeignKey("users.id"), nullable=False)
+    task_id: Mapped[int | None] = mapped_column(
+        ForeignKey("tasks.id", ondelete="SET NULL"),
+        nullable=True,
+    )
+    studied_on: Mapped[date] = mapped_column(Date, nullable=False)
+    duration_minutes: Mapped[int] = mapped_column(nullable=False)
+    note: Mapped[str | None] = mapped_column(Text, nullable=True)
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), server_default=func.now(), nullable=False
+    )

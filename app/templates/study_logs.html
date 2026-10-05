@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#f6f7f2">
+    <title>学习记录 · StudyFlow</title>
+    <link rel="stylesheet" href="{{ url_for('static', path='/css/style.css') }}">
+  </head>
+  <body>
+    <main class="page-shell">
+      <header class="topbar">
+        <a class="brand" href="/dashboard" aria-label="StudyFlow Dashboard">
+          <span class="brand-mark" aria-hidden="true">S</span>
+          <span>StudyFlow</span>
+        </a>
+        <nav class="topbar-links" aria-label="工作台导航">
+          <a href="/dashboard">Dashboard</a>
+          <a href="/projects">项目</a>
+          <a href="/tasks">任务</a>
+          <a href="/plans">学习计划</a>
+          <a href="/notes">笔记</a>
+        </nav>
+      </header>
+
+      <section class="workspace-content" aria-labelledby="study-logs-title">
+        <div class="page-heading">
+          <div>
+            <p class="eyebrow"><span class="status-dot"></span>YOUR WORKSPACE</p>
+            <h1 id="study-logs-title">学习记录</h1>
+            <p class="auth-intro">记录实际投入的学习时间，与计划时间分开统计。</p>
+          </div>
+          <a class="primary-link" href="/study-logs/new">新增记录</a>
+        </div>
+
+        {% if log_rows %}
+        <ul class="record-list">
+          {% for log, task_title in log_rows %}
+          <li class="record-card">
+            <div class="record-main">
+              <div class="record-title-row">
+                <h2>{{ log.studied_on.isoformat() }}</h2>
+                <span class="status-label">{{ log.duration_minutes }} 分钟</span>
+              </div>
+              <div class="record-meta">
+                {% if task_title %}<span>关联任务：{{ task_title }}</span>{% endif %}
+                <span>记录于 {{ log.created_at.strftime("%Y-%m-%d %H:%M") }}</span>
+              </div>
+              {% if log.note %}<p class="record-description">{{ log.note }}</p>{% endif %}
+            </div>
+            <div class="record-actions">
+              <a class="secondary-link" href="/study-logs/{{ log.id }}/edit">编辑</a>
+              <form action="/study-logs/{{ log.id }}/delete" method="post">
+                <button class="danger-button" type="submit">删除</button>
+              </form>
+            </div>
+          </li>
+          {% endfor %}
+        </ul>
+        {% else %}
+        <p class="empty-state">还没有学习记录。记录实际学习时间后，统计会显示在 Dashboard。</p>
+        {% endif %}
+      </section>
+
+      <footer class="footer">
+        <span>记录实际完成的学习时间。</span>
+        <span class="footer-mark">STUDYFLOW <span aria-hidden="true">·</span> STUDY LOGS</span>
+      </footer>
+    </main>
+  </body>
+</html>

@@ -1,6 +1,6 @@
 # StudyFlow
 
-StudyFlow 是一个个人学习与项目工作台，面向学生和个人开发者。目前已完成 Day 1 至 Day 5 的应用骨架、认证、项目任务、学习计划和 Markdown 笔记功能。
+StudyFlow 是一个个人学习与项目工作台，面向学生和个人开发者。目前已完成 Day 1 至 Day 6 的应用骨架、认证、项目任务、学习计划、Markdown 笔记、学习记录和学习统计功能。
 
 ## 环境要求
 
@@ -33,7 +33,7 @@ python -m uvicorn app.main:app --reload
 - 打开 <http://127.0.0.1:8000> 查看 StudyFlow 首页。
 - 首次使用时打开 <http://127.0.0.1:8000/setup> 创建唯一的初始账户。
 - 之后通过 <http://127.0.0.1:8000/login> 登录；登录成功后进入受保护的 Dashboard。
-- Dashboard 可进入项目、任务、学习计划和笔记页面，并提供退出登录按钮。
+- Dashboard 可进入项目、任务、学习计划、笔记和学习记录页面，并提供退出登录按钮。
 
 开发服务器启动后，修改文件会自动重新加载。SQLite 数据库文件位于 `data/studyflow.db`，由 Alembic 迁移创建，并已加入 Git 忽略规则。
 
@@ -87,12 +87,19 @@ python -m uvicorn app.main:app --reload --env-file .env
 - Notes：创建、查看、编辑和删除 Markdown 笔记，可选择关联自己的项目
 - 按标题搜索当前用户的笔记
 - 渲染常见 Markdown 语法，并在输出前清理 HTML，过滤脚本、事件属性和危险链接
-- Dashboard、Projects、Tasks、Plans 和 Notes 页面之间提供导航
+- Dashboard、Projects、Tasks、Plans、Notes 和 Study Logs 页面之间提供导航
+
+### Day 6 已完成
+
+- Study Logs：创建、查看、编辑和删除学习记录，可关联自己的 Task
+- 学习记录按日期保存，分钟数必须为正整数
+- Dashboard 根据当前用户数据计算今日、本周和累计实际学习分钟数及记录数、已完成 Task 数
+- Dashboard 同时显示计划分钟数和实际记录分钟数，两者分别统计
+- 统计由现有 StudyLog、Task 和 Project 数据实时计算，不单独保存统计表
+- Dashboard、Projects、Tasks、Plans、Notes 和 Study Logs 页面之间提供导航
 
 ### 尚未实现
 
-- Study Logs
-- Statistics
 - AI Assistant
 
 ## 项目结构
@@ -118,6 +125,7 @@ StudyFlow/
 │   │   ├── notes.py
 │   │   ├── plans.py
 │   │   ├── projects.py
+│   │   ├── study_logs.py
 │   │   └── tasks.py
 │   ├── static/
 │   │   └── css/
@@ -133,6 +141,8 @@ StudyFlow/
 │       ├── plans.html
 │       ├── project_form.html
 │       ├── projects.html
+│       ├── study_log_form.html
+│       ├── study_logs.html
 │       ├── task_form.html
 │       ├── tasks.html
 │       └── setup.html
@@ -145,7 +155,8 @@ StudyFlow/
 │       ├── 0001_create_users_and_auth_sessions.py
 │       ├── 0002_create_projects_and_tasks.py
 │       ├── 0003_create_study_plans.py
-│       └── 0004_create_notes.py
+│       ├── 0004_create_notes.py
+│       └── 0005_create_study_logs.py
 ├── pyproject.toml
 └── README.md
 ```

@@ -86,3 +86,24 @@ class NoteFormData(BaseModel):
         if value == "":
             return None
         return value
+
+
+class StudyLogFormData(BaseModel):
+    studied_on: date
+    duration_minutes: int = Field(gt=0)
+    task_id: int | None = Field(default=None, ge=1)
+    note: str | None = None
+
+    @field_validator("task_id", mode="before")
+    @classmethod
+    def blank_task_is_empty(cls, value: object) -> object:
+        if value == "":
+            return None
+        return value
+
+    @field_validator("note", mode="before")
+    @classmethod
+    def blank_note_is_empty(cls, value: str | None) -> str | None:
+        if value is None or not value.strip():
+            return None
+        return value
