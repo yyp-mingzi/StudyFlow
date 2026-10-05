@@ -32,7 +32,7 @@ python -m uvicorn app.main:app --reload
 - 打开 <http://127.0.0.1:8000> 查看 StudyFlow 首页。
 - 首次使用时打开 <http://127.0.0.1:8000/setup> 创建唯一的初始账户。
 - 之后通过 <http://127.0.0.1:8000/login> 登录；登录成功后进入受保护的 Dashboard。
-- Dashboard 提供退出登录按钮。
+- Dashboard 可进入项目和任务页面，并提供退出登录按钮。
 
 开发服务器启动后，修改文件会自动重新加载。SQLite 数据库文件位于 `data/studyflow.db`，由 Alembic 迁移创建，并已加入 Git 忽略规则。
 
@@ -66,11 +66,17 @@ python -m uvicorn app.main:app --reload --env-file .env
 - 首次账户初始化页面与流程
 - 登录、服务端 Session Cookie 和 Logout
 - 需要登录才能访问的 Dashboard
+- 用户数据隔离：项目和任务查询限定为当前登录用户
+
+### Day 3 已完成
+
+- Projects：创建、查看、编辑、归档和删除
+- Tasks：创建、查看、编辑、完成和删除，并支持所属项目、优先级和截止日期
+- Dashboard 显示当前用户的 active 项目数、未完成任务数和最近任务
+- Task 完成时记录 `completed_at`，重新打开时清除该时间
 
 ### 尚未实现
 
-- Projects
-- Tasks
 - Study Plans
 - Notes
 - Study Logs
@@ -92,9 +98,12 @@ StudyFlow/
 │   ├── database.py
 │   ├── main.py
 │   ├── models.py
+│   ├── schemas.py
 │   ├── routers/
 │   │   ├── auth.py
-│   │   └── dashboard.py
+│   │   ├── dashboard.py
+│   │   ├── projects.py
+│   │   └── tasks.py
 │   ├── static/
 │   │   └── css/
 │   │       └── style.css
@@ -102,6 +111,10 @@ StudyFlow/
 │       ├── dashboard.html
 │       ├── index.html
 │       ├── login.html
+│       ├── project_form.html
+│       ├── projects.html
+│       ├── task_form.html
+│       ├── tasks.html
 │       └── setup.html
 ├── data/
 │   └── studyflow.db
@@ -109,7 +122,8 @@ StudyFlow/
 │   ├── env.py
 │   ├── script.py.mako
 │   └── versions/
-│       └── 0001_create_users_and_auth_sessions.py
+│       ├── 0001_create_users_and_auth_sessions.py
+│       └── 0002_create_projects_and_tasks.py
 ├── pyproject.toml
 └── README.md
 ```

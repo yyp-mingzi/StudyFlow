@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#f6f7f2">
+    <title>任务 · StudyFlow</title>
+    <link rel="stylesheet" href="{{ url_for('static', path='/css/style.css') }}">
+  </head>
+  <body>
+    <main class="page-shell">
+      <header class="topbar">
+        <a class="brand" href="/dashboard" aria-label="StudyFlow Dashboard">
+          <span class="brand-mark" aria-hidden="true">S</span>
+          <span>StudyFlow</span>
+        </a>
+        <nav class="topbar-links" aria-label="工作台导航">
+          <a href="/dashboard">Dashboard</a>
+          <a href="/projects">项目</a>
+        </nav>
+      </header>
+
+      <section class="workspace-content" aria-labelledby="tasks-title">
+        <div class="page-heading">
+          <div>
+            <p class="eyebrow"><span class="status-dot"></span>YOUR WORKSPACE</p>
+            <h1 id="tasks-title">任务</h1>
+            <p class="auth-intro">记录、安排并完成你的下一步。</p>
+          </div>
+          <a class="primary-link" href="/tasks/new">新建任务</a>
+        </div>
+
+        {% if task_rows %}
+        <ul class="record-list">
+          {% for task, project_name in task_rows %}
+          <li class="record-card">
+            <div class="record-main">
+              <div class="record-title-row">
+                <h2>{{ task.title }}</h2>
+                <span class="status-label status-{{ task.status }}">
+                  {% if task.status == "todo" %}待办{% elif task.status == "in_progress" %}进行中{% else %}已完成{% endif %}
+                </span>
+              </div>
+              {% if task.description %}<p class="record-description">{{ task.description }}</p>{% endif %}
+              <div class="record-meta">
+                <span>优先级：{% if task.priority == "high" %}高{% elif task.priority == "low" %}低{% else %}中{% endif %}</span>
+                {% if project_name %}<span>项目：{{ project_name }}</span>{% endif %}
+                {% if task.due_date %}<span>截止：{{ task.due_date.isoformat() }}</span>{% endif %}
+              </div>
+            </div>
+            <div class="record-actions">
+              <a class="secondary-link" href="/tasks/{{ task.id }}/edit">编辑</a>
+              {% if task.status != "completed" %}
+              <form action="/tasks/{{ task.id }}/complete" method="post">
+                <button class="secondary-button" type="submit">完成</button>
+              </form>
+              {% endif %}
+              <form action="/tasks/{{ task.id }}/delete" method="post">
+                <button class="danger-button" type="submit">删除</button>
+              </form>
+            </div>
+          </li>
+          {% endfor %}
+        </ul>
+        {% else %}
+        <p class="empty-state">还没有任务。创建任务后，它会显示在这里和 Dashboard 上。</p>
+        {% endif %}
+      </section>
+
+      <footer class="footer">
+        <span>一步一步推进你的计划。</span>
+        <span class="footer-mark">STUDYFLOW <span aria-hidden="true">·</span> TASKS</span>
+      </footer>
+    </main>
+  </body>
+</html>

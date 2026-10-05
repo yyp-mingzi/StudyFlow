@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#f6f7f2">
+    <title>{{ page_title }} · StudyFlow</title>
+    <link rel="stylesheet" href="{{ url_for('static', path='/css/style.css') }}">
+  </head>
+  <body>
+    <main class="page-shell">
+      <header class="topbar">
+        <a class="brand" href="/dashboard" aria-label="StudyFlow Dashboard">
+          <span class="brand-mark" aria-hidden="true">S</span>
+          <span>StudyFlow</span>
+        </a>
+        <nav class="topbar-links" aria-label="工作台导航">
+          <a href="/dashboard">Dashboard</a>
+          <a href="/tasks">任务</a>
+        </nav>
+      </header>
+
+      <section class="auth-card form-card" aria-labelledby="project-form-title">
+        <p class="eyebrow"><span class="status-dot"></span>PROJECT</p>
+        <h1 id="project-form-title">{{ page_title }}</h1>
+        {% if error %}<p class="form-error" role="alert">{{ error }}</p>{% endif %}
+
+        <form action="{{ form_action }}" method="post" class="setup-form">
+          <label class="form-field">
+            <span>项目名称</span>
+            <input type="text" name="name" value="{{ form.name }}" maxlength="160" required>
+          </label>
+          <label class="form-field">
+            <span>项目描述</span>
+            <textarea name="description" rows="4">{{ form.description }}</textarea>
+          </label>
+          <label class="form-field">
+            <span>状态</span>
+            <select name="status">
+              <option value="active" {% if form.status == "active" %}selected{% endif %}>进行中</option>
+              <option value="archived" {% if form.status == "archived" %}selected{% endif %}>已归档</option>
+            </select>
+          </label>
+          <button class="primary-button" type="submit">保存项目</button>
+          <a class="text-link" href="/projects">返回项目列表</a>
+        </form>
+      </section>
+
+      <footer class="footer">
+        <span>让每个项目都有清晰的下一步。</span>
+        <span class="footer-mark">STUDYFLOW <span aria-hidden="true">·</span> PROJECT</span>
+      </footer>
+    </main>
+  </body>
+</html>

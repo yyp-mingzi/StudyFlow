@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#f6f7f2">
+    <title>{{ page_title }} · StudyFlow</title>
+    <link rel="stylesheet" href="{{ url_for('static', path='/css/style.css') }}">
+  </head>
+  <body>
+    <main class="page-shell">
+      <header class="topbar">
+        <a class="brand" href="/dashboard" aria-label="StudyFlow Dashboard">
+          <span class="brand-mark" aria-hidden="true">S</span>
+          <span>StudyFlow</span>
+        </a>
+        <nav class="topbar-links" aria-label="工作台导航">
+          <a href="/dashboard">Dashboard</a>
+          <a href="/projects">项目</a>
+        </nav>
+      </header>
+
+      <section class="auth-card form-card" aria-labelledby="task-form-title">
+        <p class="eyebrow"><span class="status-dot"></span>TASK</p>
+        <h1 id="task-form-title">{{ page_title }}</h1>
+        {% if error %}<p class="form-error" role="alert">{{ error }}</p>{% endif %}
+
+        <form action="{{ form_action }}" method="post" class="setup-form">
+          <label class="form-field">
+            <span>任务标题</span>
+            <input type="text" name="title" value="{{ form.title }}" maxlength="200" required>
+          </label>
+          <label class="form-field">
+            <span>任务描述</span>
+            <textarea name="description" rows="4">{{ form.description }}</textarea>
+          </label>
+          <label class="form-field">
+            <span>所属项目</span>
+            <select name="project_id">
+              <option value="">不关联项目</option>
+              {% for project in projects %}
+              <option value="{{ project.id }}" {% if form.project_id|string == project.id|string %}selected{% endif %}>
+                {{ project.name }}{% if project.status == "archived" %}（已归档）{% endif %}
+              </option>
+              {% endfor %}
+            </select>
+          </label>
+          <div class="form-grid">
+            <label class="form-field">
+              <span>状态</span>
+              <select name="status">
+                <option value="todo" {% if form.status == "todo" %}selected{% endif %}>待办</option>
+                <option value="in_progress" {% if form.status == "in_progress" %}selected{% endif %}>进行中</option>
+                <option value="completed" {% if form.status == "completed" %}selected{% endif %}>已完成</option>
+              </select>
+            </label>
+            <label class="form-field">
+              <span>优先级</span>
+              <select name="priority">
+                <option value="low" {% if form.priority == "low" %}selected{% endif %}>低</option>
+                <option value="medium" {% if form.priority == "medium" %}selected{% endif %}>中</option>
+                <option value="high" {% if form.priority == "high" %}selected{% endif %}>高</option>
+              </select>
+            </label>
+          </div>
+          <label class="form-field">
+            <span>截止日期</span>
+            <input type="date" name="due_date" value="{{ form.due_date }}">
+          </label>
+          <button class="primary-button" type="submit">保存任务</button>
+          <a class="text-link" href="/tasks">返回任务列表</a>
+        </form>
+      </section>
+
+      <footer class="footer">
+        <span>把想法变成下一步行动。</span>
+        <span class="footer-mark">STUDYFLOW <span aria-hidden="true">·</span> TASK</span>
+      </footer>
+    </main>
+  </body>
+</html>
