@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#f6f7f2">
+    <title>{{ app_name }} · 个人学习工作台</title>
+    <link rel="stylesheet" href="{{ url_for('static', path='/css/style.css') }}">
+  </head>
+  <body>
+    <main class="page-shell">
+      <header class="topbar">
+        <a class="brand" href="/" aria-label="{{ app_name }} 首页">
+          <span class="brand-mark" aria-hidden="true">S</span>
+          <span>{{ app_name }}</span>
+        </a>
+        <span class="topbar-note">PERSONAL WORKSPACE</span>
+      </header>
+
+      <section class="welcome-card" aria-labelledby="welcome-title">
+        <div class="welcome-copy">
+          <p class="eyebrow"><span class="status-dot"></span>你的工作台已启动</p>
+          <h1 id="welcome-title">让想做的事，<br>一步步有着落。</h1>
+          <p class="intro">
+            欢迎来到 {{ app_name }}。这里将成为你整理学习与个人项目的安静角落。
+          </p>
+          <div class="day-label">
+            <span class="day-number">01</span>
+            <span class="day-divider" aria-hidden="true"></span>
+            <span>从一个清晰的起点开始</span>
+          </div>
+        </div>
+
+        <aside class="welcome-art" aria-label="StudyFlow 品牌图形">
+          <div class="orbit orbit-outer"></div>
+          <div class="orbit orbit-inner"></div>
+          <div class="sun"></div>
+          <div class="art-caption">
+            <span class="caption-line"></span>
+            <span>MAKE SPACE<br>TO FOCUS</span>
+          </div>
+          <span class="art-index">SF — 001</span>
+        </aside>
+      </section>
+
+      <footer class="footer">
+        <span>一段专注的时间，也能带来新的开始。</span>
+        <span class="footer-mark">STUDYFLOW <span aria-hidden="true">·</span> DAY 1</span>
+      </footer>
+    </main>
+  </body>
+</html>
