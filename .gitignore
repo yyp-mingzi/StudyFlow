@@ -1,7 +1,27 @@
+# Python virtual environments
 .venv/
+
+# Python bytecode and build metadata
 __pycache__/
 *.py[cod]
 *.egg-info/
+
+# Test and lint caches
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Local environment variables
 .env
+
+# IDE settings
+.vscode/
+.idea/
+
+# Local SQLite databases and journal/sidecar files
 data/*.db
 data/*.db-*
+data/*.sqlite
+data/*.sqlite-*
